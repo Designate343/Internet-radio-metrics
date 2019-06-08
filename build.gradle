@@ -1,0 +1,26 @@
+
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building an application
+    id 'application'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.25.2'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.4'
+    implementation group: 'org.json', name: 'json', version: '20180813'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.1.5.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.1.5.RELEASE'
+
+    testImplementation 'junit:junit:4.12'
+}
+
+// Define the main class for the application
+mainClassName = 'com.runner.App'
