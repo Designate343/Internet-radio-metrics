@@ -25,14 +25,5 @@ public class App implements CommandLineRunner {
         runMigrations.run();
         Config config = Config.getFromConfigFile("config.json");
         downloadService.downloadProgrammesAndWriteToDatabase(config);
-
-//        Optional<IDBWriter> dbMaybe = GetDatabase.getDatabase(config);
-//        if (dbMaybe.isPresent()) {
-//            IDBWriter databaseWriter = dbMaybe.get();
-//            DownloadService service = new DownloadBBCTrackListings();
-//            service.downloadProgrammesAndWriteToDatabase(config, databaseWriter);
-//        } else {
-//            Logger.getLogger(App.class.getName()).log(Level.SEVERE, "unable to load database from config");
-//        }
     }
 }
