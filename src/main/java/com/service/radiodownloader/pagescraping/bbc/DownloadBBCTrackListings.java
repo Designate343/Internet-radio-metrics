@@ -3,7 +3,7 @@ package com.service.radiodownloader.pagescraping.bbc;
 import com.service.radiodownloader.database.springy.GetDateToStartDownloadFrom;
 import com.service.radiodownloader.database.springy.StationDao;
 import com.service.radiodownloader.database.springy.WriteProgrammeData;
-import com.service.radiodownloader.dataclasses.Config;
+import com.service.radiodownloader.dataclasses.DownloadRequest;
 import com.service.radiodownloader.dataclasses.ProgrammeData;
 import com.service.radiodownloader.pagescraping.DownloadService;
 import com.service.radiodownloader.stations.UrlLookup;
@@ -33,12 +33,13 @@ public class DownloadBBCTrackListings implements DownloadService {
     private GetDateToStartDownloadFrom getDateToStartDownloadFrom;
 
     @Override
-    public void downloadProgrammesAndWriteToDatabase(Config config) {
-        LocalDate start = getDateToStartDownloadFrom.run(config.getDate_since());
-        LocalDate end = LocalDate.now();
+    public void downloadProgrammesAndWriteToDatabase(String stationName, DownloadRequest downloadRequest) {
+        LocalDate start = getDateToStartDownloadFrom.run(downloadRequest.getStartDownload());
+        LocalDate end = downloadRequest.getEndDownload() != null ?
+                downloadRequest.getEndDownload() : LocalDate.now();
 
-        var baseUrl = UrlLookup.getUrl(config.getStationName());
-        int stationId = stationDao.writeStationToDatabaseOrRetrieveExistingId(config.getStationName());
+        var baseUrl = UrlLookup.getUrl(stationName);
+        int stationId = stationDao.writeStationToDatabaseOrRetrieveExistingId(stationName);
 
         start.datesUntil(end).forEach(date -> {
             Set<ProgrammeData> programmesOnDay = getProgrammesOnDay(baseUrl, date);

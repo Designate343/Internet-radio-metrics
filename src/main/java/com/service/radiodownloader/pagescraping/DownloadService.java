@@ -1,9 +1,9 @@
 package com.service.radiodownloader.pagescraping;
 
-import com.service.radiodownloader.dataclasses.Config;
+import com.service.radiodownloader.dataclasses.DownloadRequest;
 
 public interface DownloadService {
 
-    void downloadProgrammesAndWriteToDatabase(Config config);
+    void downloadProgrammesAndWriteToDatabase(String stationName, DownloadRequest downloadRequest);
 
 }

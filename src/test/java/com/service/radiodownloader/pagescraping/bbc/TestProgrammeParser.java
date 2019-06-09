@@ -6,7 +6,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -14,9 +13,6 @@ import java.util.List;
 
 
 public class TestProgrammeParser {
-
-    @Autowired
-    private ParseBBCSchedulePage parseBBCSchedulePage;
 
     @Test
     public void testParseDJPage() throws Exception {
@@ -52,7 +48,8 @@ public class TestProgrammeParser {
         String url = System.getProperty("user.dir") + "/src/test/resources/sampleProgrammeListPage.html";
         File htmlFile = new File(url);
         Document doc = Jsoup.parse(htmlFile, "UTF-8");
-        List<ProgrammeData> programmesOnDay = parseBBCSchedulePage.getAllShows(doc, LocalDate.now());
+        var schedulePageParser = new ParseBBCSchedulePage();
+        List<ProgrammeData> programmesOnDay = schedulePageParser.getAllShows(doc, LocalDate.now());
         Assert.assertEquals(0, programmesOnDay.size());
 
     }

@@ -30,7 +30,7 @@ public class ParseBBCSchedulePage {
         Element relevantPageSegment = wholeDocument.getElementsByClass(css_class_selector).first();
         int day = date.getDayOfMonth();
 
-        ExecutorService service = Executors.newFixedThreadPool(4);
+        ExecutorService service = Executors.newFixedThreadPool(8);
         List<Future<ProgrammeData>> futureList = new ArrayList<>();
 
         for (Element eachProgramme : relevantPageSegment.getElementsByClass("grid-wrapper")) {
