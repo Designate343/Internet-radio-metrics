@@ -1,8 +1,6 @@
 package com.service.radiodownloader.date;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.logging.Level;
@@ -27,10 +25,6 @@ public class DateUtilities {
 			return LocalDateTime.MIN;
 		}
 
-	}
-
-	public static LocalDateTime convertTimeStampToLocalDateTime(Timestamp timestamp) {
-		return LocalDateTime.ofInstant(timestamp.toInstant(), ZoneOffset.ofHours(0));
 	}
 
 }
