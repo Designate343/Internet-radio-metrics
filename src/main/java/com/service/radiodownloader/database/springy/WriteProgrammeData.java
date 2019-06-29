@@ -22,15 +22,15 @@ public class WriteProgrammeData {
     @Autowired
     private GetProgramme getProgramme;
 
-    public void run(ProgrammeData programmeData) {
+    public void run(int stationId, ProgrammeData programmeData) {
         String presenterName = programmeData.getPresenterName();
         LocalDateTime date = programmeData.getDate();
 
-        Presenter presenter = getPresenter.run(presenterName, programmeData.getStationId());
+        Presenter presenter = getPresenter.run(presenterName, stationId);
 
         UUID presenterId;
         if (presenter == null) {
-            presenterId = writePresenter.insertPresenterIfUnique(presenterName, programmeData.getStationId());
+            presenterId = writePresenter.insertPresenterIfUnique(presenterName, stationId);
         } else {
             presenterId = presenter.getPresenterId();
         }
@@ -38,7 +38,7 @@ public class WriteProgrammeData {
         GetProgramme.Programme programme = getProgramme.run(date, presenterName);
         if (programme == null) {
             UUID programmeId = UUID.randomUUID();
-            System.out.println("writing to database: date time " + date.toString());
+
             writeProgramme.insertProgramme(programmeId, presenterId, date, programmeData.getDescription());
             writeTracks.insertTracks(programmeData.getTracksPlayed(), programmeId, presenterId);
         }

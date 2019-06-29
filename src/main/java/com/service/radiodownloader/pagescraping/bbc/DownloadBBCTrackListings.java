@@ -44,8 +44,7 @@ public class DownloadBBCTrackListings implements DownloadService {
         start.datesUntil(end).forEach(date -> {
             Set<ProgrammeData> programmesOnDay = getProgrammesOnDay(baseUrl, date);
             for (ProgrammeData programmeData : programmesOnDay) {
-                programmeData.setStationId(stationId);
-                writeProgrammeData.run(programmeData);
+                writeProgrammeData.run(stationId, programmeData);
             }
         });
     }

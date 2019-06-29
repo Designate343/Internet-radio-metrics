@@ -5,7 +5,6 @@ import java.util.List;
 
 public class ProgrammeData {
 
-	private int stationId;
     private final String presenterName;
     private final LocalDateTime date;
     private final String description;
@@ -33,14 +32,5 @@ public class ProgrammeData {
 	public String getDescription() {
 		return description;
 	}
-
-	public void setStationId(int stationId) {
-		this.stationId = stationId;
-	}
-
-	public int getStationId() {
-		return stationId;
-	}
-
 
 }
