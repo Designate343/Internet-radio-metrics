@@ -3,7 +3,7 @@ package com.service.radiodownloader.dataclasses;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ProgrammeData {
+public class    ProgrammeData {
 
     private final String presenterName;
     private final LocalDateTime date;

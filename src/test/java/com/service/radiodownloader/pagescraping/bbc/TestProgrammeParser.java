@@ -51,6 +51,5 @@ public class TestProgrammeParser {
         var schedulePageParser = new ParseBBCSchedulePage();
         List<ProgrammeData> programmesOnDay = schedulePageParser.getAllShows(doc, LocalDate.now());
         Assert.assertEquals(0, programmesOnDay.size());
-
     }
 }

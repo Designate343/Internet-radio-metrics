@@ -1,12 +1,13 @@
 package com.service.radiodownloader.pagescraping.bbc;
 
-import com.service.radiodownloader.database.springy.GetDateToStartDownloadFrom;
-import com.service.radiodownloader.database.springy.StationDao;
-import com.service.radiodownloader.database.springy.WriteProgrammeData;
-import com.service.radiodownloader.dataclasses.DownloadRequest;
+import com.service.radiodownloader.database.weirdstuff.GetDateToStartDownloadFrom;
+import com.service.radiodownloader.database.log.LogDownload;
+import com.service.radiodownloader.database.stations.StationDao;
+import com.service.radiodownloader.database.programmes.WriteProgrammeData;
 import com.service.radiodownloader.dataclasses.ProgrammeData;
 import com.service.radiodownloader.pagescraping.DownloadService;
-import com.service.radiodownloader.stations.UrlLookup;
+import com.service.radiodownloader.requests.DownloadRequest;
+import com.service.radiodownloader.requests.Request;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,9 +33,18 @@ public class DownloadBBCTrackListings implements DownloadService {
     private StationDao stationDao;
     @Autowired
     private GetDateToStartDownloadFrom getDateToStartDownloadFrom;
+    @Autowired
+    private LogDownload logDownload;
 
     @Override
-    public void downloadProgrammesAndWriteToDatabase(String stationName, DownloadRequest downloadRequest) {
+    public void logDownloadStart(UUID tag, Request request) {
+        logDownload.logDownloadStart(tag, request);
+    }
+
+    @Override
+    public void downloadProgrammesAndWriteToDatabase(String stationName, DownloadRequest downloadRequest, UUID etag) {
+        logDownloadStart(etag, downloadRequest);
+
         LocalDate start = getDateToStartDownloadFrom.run(downloadRequest.getStartDownload());
         LocalDate end = downloadRequest.getEndDownload() != null ?
                 downloadRequest.getEndDownload() : LocalDate.now();
@@ -47,6 +58,13 @@ public class DownloadBBCTrackListings implements DownloadService {
                 writeProgrammeData.run(stationId, programmeData);
             }
         });
+
+        logDownloadEnd(etag);
+    }
+
+    @Override
+    public void logDownloadEnd(UUID tag) {
+        logDownload.logDownloadEnd(tag);
     }
 
     private Set<ProgrammeData> getProgrammesOnDay(final String baseUrl, LocalDate date) {

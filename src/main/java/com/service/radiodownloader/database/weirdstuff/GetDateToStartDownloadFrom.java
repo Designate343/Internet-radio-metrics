@@ -1,4 +1,4 @@
-package com.service.radiodownloader.database.springy;
+package com.service.radiodownloader.database.weirdstuff;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

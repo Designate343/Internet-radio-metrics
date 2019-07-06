@@ -1,4 +1,4 @@
-package com.service.radiodownloader.database.springy;
+package com.service.radiodownloader.database.presenters;
 
 import com.service.radiodownloader.dataclasses.Presenter;
 import org.springframework.beans.factory.annotation.Autowired;

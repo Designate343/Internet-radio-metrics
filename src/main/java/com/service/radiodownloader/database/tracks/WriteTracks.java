@@ -1,4 +1,4 @@
-package com.service.radiodownloader.database.springy;
+package com.service.radiodownloader.database.tracks;
 
 import com.service.radiodownloader.dataclasses.Track;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-class WriteTracks {
+public class WriteTracks {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
-    void insertTracks(List<Track> trackInfo, UUID programmeID, UUID presenterId) {
+    public void insertTracks(List<Track> trackInfo, UUID programmeID, UUID presenterId) {
         var query = "INSERT INTO TRACKS" +
                 " (track_name, track_artist, track_programme_origin_uuid, track_presenter_uuid)" +
                 " VALUES" +

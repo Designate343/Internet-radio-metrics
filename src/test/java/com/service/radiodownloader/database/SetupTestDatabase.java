@@ -32,5 +32,4 @@ public class SetupTestDatabase {
 
         Assert.assertEquals("fooBar", result.get(0));
     }
-
 }

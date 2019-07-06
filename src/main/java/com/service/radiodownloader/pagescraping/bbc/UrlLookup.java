@@ -1,4 +1,4 @@
-package com.service.radiodownloader.stations;
+package com.service.radiodownloader.pagescraping.bbc;
 
 import java.util.Map;
 

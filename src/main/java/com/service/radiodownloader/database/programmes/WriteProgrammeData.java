@@ -1,5 +1,8 @@
-package com.service.radiodownloader.database.springy;
+package com.service.radiodownloader.database.programmes;
 
+import com.service.radiodownloader.database.presenters.GetPresenter;
+import com.service.radiodownloader.database.presenters.WritePresenter;
+import com.service.radiodownloader.database.tracks.WriteTracks;
 import com.service.radiodownloader.dataclasses.Presenter;
 import com.service.radiodownloader.dataclasses.ProgrammeData;
 import org.springframework.beans.factory.annotation.Autowired;

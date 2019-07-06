@@ -1,4 +1,4 @@
-package com.service.radiodownloader.database.springy;
+package com.service.radiodownloader.database.programmes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-class WriteProgramme {
+public class WriteProgramme {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    void insertProgramme(UUID programmeId, UUID presenterId, LocalDateTime date, String description) {
+    public void insertProgramme(UUID programmeId, UUID presenterId, LocalDateTime date, String description) {
         jdbcTemplate.update("INSERT INTO PROGRAMMES" +
                 " (programme_uuid, programme_presenter_uuid, programme_date_broadcast, programme_description)" +
                 " VALUES " +

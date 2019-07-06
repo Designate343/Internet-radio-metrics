@@ -1,4 +1,4 @@
-package com.service.radiodownloader.database.springy;
+package com.service.radiodownloader.database.presenters;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-class WritePresenter {
+public class WritePresenter {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    UUID insertPresenterIfUnique(String presenter, int stationId) {
+    public UUID insertPresenterIfUnique(String presenter, int stationId) {
         final UUID presenterId = UUID.randomUUID();
 
         namedParameterJdbcTemplate.getJdbcTemplate().update(

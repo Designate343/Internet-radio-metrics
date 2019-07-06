@@ -1,12 +1,11 @@
-package com.service.radiodownloader.database.springy;
+package com.service.radiodownloader.database.stations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class StationDao {
@@ -21,18 +20,14 @@ public class StationDao {
                 (rs, i) -> rs.getInt(1), stationName);
 
         if (stationsWithSameName.isEmpty()) {
-            KeyHolder keyHolder = new GeneratedKeyHolder();
             var query = "INSERT INTO stations" +
-                    " (station_name)" +
+                    " (station_id, station_name)" +
                     " VALUES" +
                     " (?,?)";
-            jdbcTemplate.update(query, stationName, keyHolder);
+            var stationId = ThreadLocalRandom.current().nextInt();
+            jdbcTemplate.update(query, stationId, stationName);
 
-            var generatedKey = keyHolder.getKey();
-            if (generatedKey != null) {
-                return generatedKey.intValue();
-            }
-            throw new RuntimeException("Auto generated station id key failed");
+            return stationId;
         } else {
             return stationsWithSameName.get(0);
         }
