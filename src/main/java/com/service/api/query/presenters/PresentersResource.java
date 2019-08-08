@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.service.api.query.BaseResource.BASE_PATH;
+import static com.service.api.query.stations.StationsResource.STATION;
+import static com.service.api.query.stations.StationsResource.STATION_ID;
+
 @RestController
 public class PresentersResource {
+
+    public static final String PRESENTERS = "presenters";
 
     @Autowired
     private GetPresentersOp getPresentersOp;
 
-    @GetMapping("/station/{station_id}/presenters")
+    @GetMapping(BASE_PATH + "/" + STATION + "/{" + STATION_ID + "}/" + PRESENTERS)
     public ResponseEntity<List<Presenter>> run(@PathVariable("station_id") int station) {
         List<Presenter> presenters = getPresentersOp.get(station);
         if (presenters == null) {

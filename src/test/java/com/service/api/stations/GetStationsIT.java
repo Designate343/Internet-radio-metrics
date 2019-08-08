@@ -34,7 +34,7 @@ public class GetStationsIT {
                 "stationId", 1
         ));
 
-        ResponseEntity<List> responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + "/station", List.class);
+        ResponseEntity<List> responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + "internet_radio/stations", List.class);
 
         List<Map<String, Object>> presenters = responseEntity.getBody();
         var presenter = presenters.get(0);
