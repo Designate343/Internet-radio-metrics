@@ -1,9 +1,9 @@
-package com.service.api.download.dataclasses;
+package com.service.database.dataclasses;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class    ProgrammeData {
+public class ProgrammeData {
 
     private final String presenterName;
     private final LocalDateTime date;

@@ -1,8 +1,8 @@
 package com.service.api.query.presenters.get;
 
-import com.service.api.download.dataclasses.Presenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.service.database.dataclasses.Presenter;
 
 import java.util.List;
 

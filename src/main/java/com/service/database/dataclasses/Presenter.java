@@ -1,4 +1,4 @@
-package com.service.api.download.dataclasses;
+package com.service.database.dataclasses;
 
 import java.util.UUID;
 

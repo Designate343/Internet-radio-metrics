@@ -1,6 +1,6 @@
 package com.service.api.query.presenters;
 
-import com.service.api.download.dataclasses.Presenter;
+import com.service.database.dataclasses.Presenter;
 import com.service.api.query.presenters.get.GetPresentersOp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

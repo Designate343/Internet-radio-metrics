@@ -3,8 +3,8 @@ package com.service.database.programmes;
 import com.service.database.presenters.GetPresenter;
 import com.service.database.presenters.WritePresenter;
 import com.service.database.tracks.WriteTracks;
-import com.service.api.download.dataclasses.Presenter;
-import com.service.api.download.dataclasses.ProgrammeData;
+import com.service.database.dataclasses.Presenter;
+import com.service.database.dataclasses.ProgrammeData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,13 +38,9 @@ public class WriteProgrammeData {
             presenterId = presenter.getPresenterId();
         }
 
-        GetProgramme.Programme programme = getProgramme.run(date, presenterName);
-        if (programme == null) {
-            UUID programmeId = UUID.randomUUID();
-
-            writeProgramme.insertProgramme(programmeId, presenterId, date, programmeData.getDescription());
-            writeTracks.insertTracks(programmeData.getTracksPlayed(), programmeId, presenterId);
-        }
+        UUID programmeId = UUID.randomUUID();
+        writeProgramme.insertProgramme(programmeId, presenterId, date, programmeData.getDescription());
+        writeTracks.insertTracks(programmeData.getTracksPlayed(), programmeId, presenterId);
 
     }
 

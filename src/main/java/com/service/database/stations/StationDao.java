@@ -24,7 +24,7 @@ public class StationDao {
                     " (station_id, station_name)" +
                     " VALUES" +
                     " (?,?)";
-            var stationId = ThreadLocalRandom.current().nextInt();
+            var stationId = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE);
             jdbcTemplate.update(query, stationId, stationName);
 
             return stationId;
