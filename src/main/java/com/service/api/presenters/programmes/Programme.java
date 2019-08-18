@@ -1,4 +1,4 @@
-package com.service.api.query.presenters.programmes;
+package com.service.api.presenters.programmes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,15 +1,15 @@
-package com.service.database.dataclasses;
+package com.service.api.presenters;
 
 import java.util.UUID;
 
 public class Presenter {
     private final String presenterName;
-    private final UUID presenterId;
+    private final UUID presenterUuid;
     private final int stationId;
 
-    public Presenter(String presenterName, UUID presenterId, int stationId) {
+    public Presenter(String presenterName, UUID presenterUuid, int stationId) {
         this.presenterName = presenterName;
-        this.presenterId = presenterId;
+        this.presenterUuid = presenterUuid;
         this.stationId = stationId;
     }
 
@@ -17,8 +17,8 @@ public class Presenter {
         return presenterName;
     }
 
-    public UUID getPresenterId() {
-        return presenterId;
+    public UUID getPresenterUuid() {
+        return presenterUuid;
     }
 
     public int getStationId() {

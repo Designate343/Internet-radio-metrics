@@ -1,4 +1,4 @@
-package com;
+package com.service;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

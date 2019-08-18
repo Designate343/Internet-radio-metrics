@@ -1,6 +1,6 @@
-package com.service.api.query.presenters.get;
+package com.service.api.presenters.get;
 
-import com.service.database.dataclasses.Presenter;
+import com.service.api.presenters.Presenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;

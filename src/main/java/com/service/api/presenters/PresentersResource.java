@@ -1,8 +1,7 @@
-package com.service.api.query.presenters;
+package com.service.api.presenters;
 
-import com.service.database.dataclasses.Presenter;
+import com.service.api.presenters.get.GetPresentersOp;
 import com.service.api.stations.CheckStationExists;
-import com.service.api.query.presenters.get.GetPresentersOp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.service.api.query.BaseResource.BASE_PATH;
-import static com.service.api.query.BaseResource.STATION;
-import static com.service.api.query.BaseResource.STATION_ID;
+import static com.service.api.BaseResource.*;
 
 @RestController
 public class PresentersResource {
