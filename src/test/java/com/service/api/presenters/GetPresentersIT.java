@@ -1,6 +1,7 @@
 package com.service.api.presenters;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -30,6 +29,13 @@ public class GetPresentersIT {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    private CommonTestDaos commonTestDaos;
+
+    @Before
+    public void setUp() throws Exception {
+        commonTestDaos = new CommonTestDaos(namedParameterJdbcTemplate);
+    }
+
     @Test
     public void invalidStationIdReturnsNotFound() {
         ResponseEntity responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + "internet_radio/station/53/presenters", Object.class);
@@ -39,12 +45,7 @@ public class GetPresentersIT {
 
     @Test
     public void canRetrievePresetenters() {
-        namedParameterJdbcTemplate.update("INSERT INTO PRESENTERS " +
-                " (presenter_name, presenter_uuid, presenter_station_id)" +
-                " VALUES (:name, :presenterId, :stationId)",
-                Map.of("name", "foo_bar",
-                        "presenterId", UUID.randomUUID(),
-                        "stationId", 6));
+        commonTestDaos.insertPresenter("foo_bar", 6);
 
         ResponseEntity<List> responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + "internet_radio/station/6/presenters", List.class);
 

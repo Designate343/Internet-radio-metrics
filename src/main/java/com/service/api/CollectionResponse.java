@@ -2,7 +2,13 @@ package com.service.api;
 
 import java.util.List;
 
-public class PagedResponse<T> {
+public class CollectionResponse<T> {
+
+    public static final String PAGE_SIZE = "x_page_size";
+    public static final String NUMBER_PAGES = "x_number_pages";
+    public static final String START = "x_start";
+    public static final String END = "x_end";
+    public static final String TOTAL_COLLECTION_SIZE = "x_total_collection_size";
 
     private final List<T> collection;
     private final int pageSize;
@@ -11,7 +17,8 @@ public class PagedResponse<T> {
     private final int end;
     private final int totalCollectionSize;
 
-    public PagedResponse(List<T> collection, int pageSize, int numberPages, int start, int end, int totalCollectionSize) {
+    public CollectionResponse(List<T> collection, int pageSize, int numberPages,
+                              int start, int end, int totalCollectionSize) {
         this.collection = collection;
         this.pageSize = pageSize;
         this.numberPages = numberPages;

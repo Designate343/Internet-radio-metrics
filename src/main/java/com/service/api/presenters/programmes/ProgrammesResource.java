@@ -1,10 +1,12 @@
 package com.service.api.presenters.programmes;
 
+import com.service.api.BuildCollectionResponse;
 import com.service.api.ListRequest;
-import com.service.api.PagedResponse;
+import com.service.api.CollectionResponse;
 import com.service.api.presenters.programmes.get.GetPresenterProgrammes;
 import com.service.api.stations.CheckStationExists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,14 +29,22 @@ public class ProgrammesResource {
     private CheckStationExists checkStationExists;
     @Autowired
     private GetPresenterProgrammes getPresenterProgrammes;
+    @Autowired
+    private BuildCollectionResponse buildCollectionResponse;
 
     @GetMapping(PRESENTER_PROGRAMMES_PATH)
     public ResponseEntity<List<Programme>> get(@PathVariable("station_id") int station,
                                                @PathVariable(PRESENTER_ID) UUID presenterId) {
         checkStationExists.checkStationExists(station);
 
-        PagedResponse<Programme> programmes = getPresenterProgrammes.getProgrammes(presenterId, new ListRequest(null, null));
+        CollectionResponse<Programme> programmes = getPresenterProgrammes.getProgrammes(presenterId,
+                new ListRequest(null, null));
 
-        return ResponseEntity.ok(programmes.getCollection());
+        HttpHeaders httpHeaders = buildCollectionResponse.buildResponseHeaders(programmes);
+
+        return ResponseEntity
+                .ok()
+                .headers(httpHeaders)
+                .body(programmes.getCollection());
     }
 }

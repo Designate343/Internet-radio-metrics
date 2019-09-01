@@ -1,8 +1,9 @@
-package com.service.api.presenters.programmes;
+package com.service.api.presenters.programmes.tracks;
 
 import com.service.api.BaseResource;
 import com.service.api.presenters.CommonTestDaos;
 import com.service.api.presenters.PresenterResource;
+import com.service.api.presenters.programmes.ProgrammesResource;
 import com.service.api.stations.Stations;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,14 +18,14 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GetPresenterProgrammesIT {
+public class GetTracksIT {
 
     @LocalServerPort
     private int port;
@@ -33,7 +34,7 @@ public class GetPresenterProgrammesIT {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final String PATH = ProgrammesResource.PRESENTER_PROGRAMMES_PATH;
+    private static final String PATH = TracksResource.TRACKS_PATH;
     private CommonTestDaos commonTestDaos;
 
     @Before
@@ -42,37 +43,32 @@ public class GetPresenterProgrammesIT {
     }
 
     @Test
-    public void invalidStationIdReturnsNotFound() {
-        String stationId = "{" + BaseResource.STATION_ID + "}";
-        String presenterIdToken = "{" + PresenterResource.PRESENTER_ID + "}";
-
-        UUID presenterId = UUID.randomUUID();
-
-        String constructedPath = PATH.replace(stationId, "76").replace(presenterIdToken, presenterId.toString());
-        ResponseEntity responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + constructedPath, Object.class);
-
-        Assert.assertEquals(responseEntity.getStatusCode().value(), SC_NOT_FOUND);
-    }
-
-    @Test
-    public void shouldListPresenterProgrammes() {
-        UUID presenterId = commonTestDaos.insertPresenter("foo_bar", Stations.BBC_6_MUSIC.getStationId());
-
-        for (int i = 1; i <= 10; i++) {
-            commonTestDaos.insertProgramme(presenterId, "/foo/bar/", "a programme description");
+    public void shouldGetTracksSuccessfully() {
+        UUID presenterId = commonTestDaos.insertPresenter("presenter_name", Stations.BBC_6_MUSIC.getStationId());
+        UUID programmeId = commonTestDaos.insertProgramme( presenterId, "/foo/bar", "a programme description");
+        for (int i = 0; i < 10; i++) {
+            commonTestDaos.insertTrack(presenterId, programmeId, "track" + i, "artist" + i);
         }
 
         String stationId = "{" + BaseResource.STATION_ID + "}";
         String presenterIdToken = "{" + PresenterResource.PRESENTER_ID + "}";
+        String programmeIdToken = "{" + ProgrammesResource.PROGRAMME_ID + "}";
         String constructedPath = PATH.replace(stationId, String.valueOf(Stations.BBC_6_MUSIC.getStationId()))
-                .replace(presenterIdToken, presenterId.toString());
+                .replace(presenterIdToken, presenterId.toString())
+                .replace(programmeIdToken, programmeId.toString());
 
         ResponseEntity<List> responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + constructedPath, List.class);
 
         Assert.assertEquals(responseEntity.getStatusCode().value(), SC_OK);
-        List<Object> presenter = responseEntity.getBody();
+        List<Object> tracks = responseEntity.getBody();
 
-        Assert.assertNotNull(presenter);
-        Assert.assertEquals(presenter.size(), 10);
+        Assert.assertNotNull(tracks);
+        Assert.assertEquals(10, tracks.size());
+
+        for (int i = 0; i < 10; i++) {
+            Map<String, Object> response = (Map) tracks.get(i);
+            Assert.assertEquals("artist" + i, response.get("artist"));
+            Assert.assertEquals("track" + i, response.get("trackName"));
+        }
     }
 }

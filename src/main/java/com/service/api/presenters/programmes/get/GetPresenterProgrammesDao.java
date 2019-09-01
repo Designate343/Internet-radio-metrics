@@ -1,7 +1,7 @@
 package com.service.api.presenters.programmes.get;
 
 import com.service.api.ListRequest;
-import com.service.api.PagedResponse;
+import com.service.api.CollectionResponse;
 import com.service.api.presenters.programmes.Programme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -24,11 +24,8 @@ public class GetPresenterProgrammesDao {
     private static final String GET_PROGRAMMES_FROM_WHERE = " FROM programmes" +
             " WHERE programme_presenter_uuid = :presenterId";
 
-    public PagedResponse<Programme> getProgrammes(UUID presenterId, ListRequest listRequest) {
+    public CollectionResponse<Programme> getProgrammes(UUID presenterId, ListRequest listRequest) {
         var params = singletonMap("presenterId", presenterId.toString());
-
-        int limit = listRequest.getLimit() == null ? DEFAULT_PAGE_SIZE : listRequest.getLimit();
-        int offset = listRequest.getOffset() == null ? 0 : listRequest.getOffset();
 
         Integer collectionTotalSize = jdbcTemplate.queryForObject("SELECT COUNT(*) " + GET_PROGRAMMES_FROM_WHERE,
                 params,
@@ -39,8 +36,8 @@ public class GetPresenterProgrammesDao {
 
         String query = SELECT_PROGRAMME +
                 GET_PROGRAMMES_FROM_WHERE +
-                " LIMIT " + limit +
-                " OFFSET " + offset;
+                " LIMIT " + listRequest.getLimit() +
+                " OFFSET " + listRequest.getOffset();
 
         List<Programme> programmes = jdbcTemplate.query(query,
                 params,
@@ -52,11 +49,11 @@ public class GetPresenterProgrammesDao {
                         presenterId)
         );
 
-        return new PagedResponse<>(programmes,
+        return new CollectionResponse<>(programmes,
                 DEFAULT_PAGE_SIZE,
                 collectionTotalSize / DEFAULT_PAGE_SIZE,
-                offset,
-                limit,
+                listRequest.getOffset(),
+                listRequest.getLimit(),
                 collectionTotalSize);
     }
 
